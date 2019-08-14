@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import './App.css';
 
 // components
 import PostIndex from '../src/components/PostIndex';
+import NavBar from '../src/components/NavBar';
+import Submit from '../src/components/Submit';
 
 const client = new ApolloClient({
     uri: 'http://localhost:4000'
@@ -15,8 +17,9 @@ class App extends Component {
         return(
         <ApolloProvider client={ client }>
             <div className="App">
-                <h1>Yo</h1>
+                <NavBar />
                 <PostIndex />
+                <Submit />
             </div>
         </ApolloProvider>
         );

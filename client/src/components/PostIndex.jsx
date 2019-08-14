@@ -1,17 +1,49 @@
 import React, { Component } from 'react';
+import { gql } from 'apollo-boost';
+import { graphql } from 'react-apollo';
+
+const getPostsQuery = gql`
+    {
+        posts {
+            id
+            title
+            url
+            upvotes
+        }
+    }
+`
 
 class PostIndex extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+    
+    }
+
+    displayPosts() {
+        var data = this.props.data;
+        if (data.loading) {
+            return(<li>Loading...</li>)
+        } else {
+            return data.posts.map(post => {
+                return(
+                    <li key={ post.id }>
+                        <a href={ post.url }>{ post.title }</a>
+                        <p>{ post.upvotes }</p>
+                    </li>
+                )
+            })
+        }
     }
 
     render() {
         return(
         <div className="PostIndex">
-            <h1>Posts go Here</h1>
+            <ul>
+                { this.displayPosts() }
+            </ul>
         </div>
         );
     }
 }
 
-export default PostIndex;
+export default graphql(getPostsQuery)(PostIndex);
