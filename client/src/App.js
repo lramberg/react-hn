@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import './App.css';
@@ -18,8 +19,14 @@ class App extends Component {
         <ApolloProvider client={ client }>
             <div className="App">
                 <NavBar />
-                <PostIndex />
-                <Submit />
+                <Switch>
+                    <Route exact path='/' render={() =>
+                        <PostIndex />
+                    } />
+                    <Route exact path='/submit' render={() =>
+                        <Submit />
+                    } />
+                </Switch>
             </div>
         </ApolloProvider>
         );

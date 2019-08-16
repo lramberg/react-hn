@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 
@@ -13,7 +13,18 @@ const ADD_POST = gql`
 
 function AddPost() {
     let input;
-    const [addPost, { data }] = useMutation(ADD_POST);
+    const [addPost] = useMutation(
+        ADD_POST,
+        {
+            update(cache, { data: { addPost } }) {
+                const { posts } = cache.readQuery({ query: this.props.query });
+                cache.writeQuery({
+                    query: this.props.query,
+                    data: { posts: posts.concat([addPost] )},
+                });
+            }
+        }
+    );
 
     return (
         <div>
